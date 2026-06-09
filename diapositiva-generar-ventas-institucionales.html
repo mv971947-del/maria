@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Ventas Institucionales - Unicomer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           CONFIGURACIÓN BASE - ESTILO CONSULTORÍA ESTRATÉGICA
+           ========================================================================== */
+        * { 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            background-color: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            margin: 0;
+            padding: 50px 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        /* Contenedor fijo con relación de aspecto 16:9 (Proyector / Pantalla) */
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Detalle geométrico de fondo decorativo corporativo */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #001A3F 0%, #003366 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 12%, 0 85%);
+            opacity: 0.03;
+            z-index: 0;
+        }
+
+        .slide-container > * { 
+            position: relative; 
+            z-index: 1; 
+        }
+
+        /* ==========================================================================
+           TIPOGRAFÍA Y PALETA DE COLORES (Corporativo Unicomer)
+           ========================================================================== */
+        h1, h2, h3 {
+            color: #001A3F;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+        }
+
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            border-bottom: 4px solid #0056B3;
+            padding-bottom: 12px;
+            margin-bottom: 45px;
+            width: 100%;
+        }
+
+        p, li {
+            color: #334155;
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        /* Área de contenido dinámico */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           ESTRUCTURAS Y GRIDS DE LAS DIAPOSITIVAS
+           ========================================================================== */
+        
+        /* Sistema de Bloques / Tarjetas */
+        .tiled-content {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .tile {
+            background-color: #F8FAFC;
+            border-top: 5px solid #0056B3;
+            border-radius: 4px;
+            padding: 35px;
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .tile .icon { 
+            color: #0056B3; 
+            font-size: 44px; 
+        }
+        
+        .tile h3 { 
+            font-size: 24px; 
+            font-weight: 700; 
+        }
+
+        /* Elementos Estadísticos o de Enfoque */
+        .highlight-large-number { 
+            color: #0056B3; 
+            font-size: 110px; 
+            font-weight: 700; 
+            line-height: 1; 
+        }
+
+        .metric-box {
+            background: linear-gradient(135deg, #0056B3 0%, #003D82 100%);
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 86, 179, 0.2);
+        }
+
+        .metric-box .number {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .metric-box .label {
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Estrategia de Acciones */
+        .action-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .action-list li {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .action-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .action-list i {
+            color: #0056B3;
+            font-size: 24px;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .action-list span {
+            font-size: 18px;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        /* Pie de Diapositiva Corporativo */
+        .footer-mark {
+            position: absolute;
+            bottom: 25px;
+            left: 60px;
+            right: 60px;
+            display: flex;
+            justify-content: space-between;
+            color: #94A3B8;
+            font-size: 13px;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 15px;
+        }
+
+        /* Columnas para distribución de contenido */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            width: 100%;
+        }
+
+        .accent-line {
+            width: 80px;
+            height: 4px;
+            background-color: #0056B3;
+            margin: 15px 0;
+        }
+
+        /* Diapositiva de Título */
+        .title-slide { 
+            background-color: #001A3F; 
+            color: #ffffff; 
+            text-align: center; 
+            justify-content: center; 
+        }
+        
+        .title-slide h1 { 
+            color: #ffffff; 
+            font-size: 68px; 
+            font-weight: 700;
+            letter-spacing: -1.5px; 
+            margin-top: 10px;
+        }
+        
+        .title-slide p { 
+            color: #94A3B8; 
+            font-size: 22px; 
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- DIAPOSITIVA 1: PORTADA GENERAR VENTAS INSTITUCIONALES -->
+    <div class="slide-container" id="slide-ventas-1">
+        <h2 class="slide-title">Generar Ventas Institucionales</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <p style="font-size: 22px; color: #475569; margin-bottom: 25px;">
+                        <strong>Estrategia integral de expansión comercial dirigida a instituciones públicas y privadas mediante metodología estructurada de prospección, negociación y cierre de operaciones de alto valor.</strong>
+                    </p>
+                    <div class="accent-line"></div>
+                    <ul class="action-list">
+                        <li>
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span>Identificación y segmentación de instituciones objetivo</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span>Construcción de relaciones comerciales de largo plazo</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span>Optimización de márgenes y condiciones comerciales</span>
+                        </li>
+                    </ul>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 25px;">
+                    <div class="metric-box">
+                        <div class="number">40%</div>
+                        <div class="label">Meta Crecimiento Anual</div>
+                    </div>
+                    <div class="metric-box" style="background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);">
+                        <div class="number">+25</div>
+                        <div class="label">Nuevas Instituciones</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-mark">
+            <span>Estrategia Comercial Institucional</span>
+            <span>Página 1</span>
+        </div>
+    </div>
+
+
+    <!-- DIAPOSITIVA 2: PILARES ESTRATÉGICOS -->
+    <div class="slide-container" id="slide-ventas-2">
+        <h2 class="slide-title">Pilares Estratégicos para Generar Ventas</h2>
+        <div class="content-area">
+            <div class="tiled-content">
+                <div class="tile">
+                    <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h3>Prospección Activa</h3>
+                    <p>Identificación sistemática de instituciones con capacidad de compra, necesidades de financiamiento y perfil de riesgo compatible con estándares Unicomer.</p>
+                </div>
+                <div class="tile" style="border-top-color: #38BDF8;">
+                    <div class="icon" style="color: #38BDF8;"><i class="fa-solid fa-handshake"></i></div>
+                    <h3>Relación Comercial</h3>
+                    <p>Construcción de vínculos sólidos mediante propuestas de valor personalizadas, términos competitivos y atención diferenciada a decisores clave.</p>
+                </div>
+                <div class="tile" style="border-top-color: #64748B;">
+                    <div class="icon" style="color: #64748B;"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Crecimiento Sostenible</h3>
+                    <p>Expansión metodológica del portafolio institucional bajo criterios de rentabilidad, diversificación sectorial y mitigación integral de riesgos crediticios.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-mark">
+            <span>Fundamentos de Crecimiento</span>
+            <span>Página 2</span>
+        </div>
+    </div>
+
+
+    <!-- DIAPOSITIVA 3: FASES DEL PROCESO -->
+    <div class="slide-container" id="slide-ventas-3">
+        <h2 class="slide-title">Fases del Proceso de Generación de Ventas</h2>
+        <div class="content-area">
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                <!-- Fase 1 -->
+                <div style="display: flex; gap: 30px; align-items: flex-start;">
+                    <div style="background-color: #0056B3; color: white; width: 60px; height: 60px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; flex-shrink: 0;">
+                        1
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 22px; margin: 0 0 10px 0; color: #0056B3;">Mapeo y Segmentación Institucional</h3>
+                        <p style="margin: 0; font-size: 18px; color: #475569;">Análisis del mercado institucional: identificación de sectores estratégicos (educación, salud, gobierno, finanzas), clasificación por tamaño y capacidad de compra, evaluación preliminar de solvencia.</p>
+                    </div>
+                </div>
+
+                <!-- Fase 2 -->
+                <div style="display: flex; gap: 30px; align-items: flex-start;">
+                    <div style="background-color: #38BDF8; color: white; width: 60px; height: 60px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; flex-shrink: 0;">
+                        2
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 22px; margin: 0 0 10px 0; color: #0056B3;">Prospección y Aproximación Comercial</h3>
+                        <p style="margin: 0; font-size: 18px; color: #475569;">Contacto directo con decisores (Directores Administrativos, Gerentes de Compras), presentación de propuesta de valor, análisis de necesidades específicas de equipamiento o financiamiento.</p>
+                    </div>
+                </div>
+
+                <!-- Fase 3 -->
+                <div style="display: flex; gap: 30px; align-items: flex-start;">
+                    <div style="background-color: #10B981; color: white; width: 60px; height: 60px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; flex-shrink: 0;">
+                        3
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 22px; margin: 0 0 10px 0; color: #0056B3;">Negociación y Cierre Comercial</h3>
+                        <p style="margin: 0; font-size: 18px; color: #475569;">Desarrollo de propuesta económica competitiva, validación de garantías y mecanismos de pago, formalización mediante orden de compra institucional y contrato bajo términos Unicomer.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-mark">
+            <span>Procesos Comerciales</span>
+            <span>Página 3</span>
+        </div>
+    </div>
+
+
+    <!-- DIAPOSITIVA 4: ACCIONES CLAVE -->
+    <div class="slide-container" id="slide-ventas-4">
+        <h2 class="slide-title">Acciones Operativas Clave para Impulsar Ventas</h2>
+        <div class="content-area">
+            <div class="two-column">
+                <div>
+                    <h3 style="font-size: 24px; color: #0056B3; margin-bottom: 25px;">
+                        <i class="fa-solid fa-bullseye" style="margin-right: 10px;"></i>Gestión Comercial
+                    </h3>
+                    <ul class="action-list">
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Base de datos actualizada de instituciones potenciales con contactos directos</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Visitas mensuales programadas a decisores clave</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Propuestas comerciales personalizadas por sector</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Seguimiento sistemático del pipeline de oportunidades</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 24px; color: #0056B3; margin-bottom: 25px;">
+                        <i class="fa-solid fa-shield-halved" style="margin-right: 10px;"></i>Control y Riesgo
+                    </h3>
+                    <ul class="action-list">
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Validación exhaustiva de solvencia antes de otorgamiento</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Garantías documentadas (garante solidario o agente de retención)</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Límites de cupo según rango de aprobación establecido</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Monitoreo trimestral de cartera institucional</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-mark">
+            <span>Operaciones Comerciales</span>
+            <span>Página 4</span>
+        </div>
+    </div>
+
+
+    <!-- DIAPOSITIVA 5: MÉTRICAS Y SEGUIMIENTO -->
+    <div class="slide-container" id="slide-ventas-5">
+        <h2 class="slide-title">Indicadores de Desempeño y Seguimiento</h2>
+        <div class="content-area">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 40px;">
+                <div class="metric-box">
+                    <div class="number">+$</div>
+                    <div class="label">Volumen Ventas</div>
+                    <p style="font-size: 14px; margin: 10px 0 0 0; opacity: 0.9;">Mensual y acumulado</p>
+                </div>
+                <div class="metric-box" style="background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);">
+                    <div class="number">#</div>
+                    <div class="label">Nuevos Clientes</div>
+                    <p style="font-size: 14px; margin: 10px 0 0 0; opacity: 0.9;">Instituciones activas</p>
+                </div>
+                <div class="metric-box" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                    <div class="number">%</div>
+                    <div class="label">Tasa Conversión</div>
+                    <p style="font-size: 14px; margin: 10px 0 0 0; opacity: 0.9;">Prospectados vs cerrados</p>
+                </div>
+                <div class="metric-box" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
+                    <div class="number">$</div>
+                    <div class="label">Ticket Promedio</div>
+                    <p style="font-size: 14px; margin: 10px 0 0 0; opacity: 0.9;">Por operación institucional</p>
+                </div>
+            </div>
+
+            <div style="background-color: #F8FAFC; padding: 30px; border-radius: 6px; border-left: 4px solid #0056B3;">
+                <h3 style="font-size: 22px; color: #0056B3; margin-top: 0;">Reporte Mensual de Gestión Comercial</h3>
+                <p style="font-size: 18px; color: #475569; margin-bottom: 15px;">Cada Jefe Regional debe consolidar:</p>
+                <ul class="action-list" style="margin: 0;">
+                    <li>
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Cantidad de instituciones prospectadas y estado de negociación</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Ventas cerradas vs meta establecida (comparativo)</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Cartera institucional activa y comportamiento de pagos</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-mark">
+            <span>Métricas de Gestión</span>
+            <span>Página 5</span>
+        </div>
+    </div>
+
+
+    <!-- DIAPOSITIVA 6: CIERRE -->
+    <div class="slide-container title-slide" id="slide-ventas-cierre">
+        <div class="content-area">
+            <div style="font-size: 72px; color: #38BDF8; margin-bottom: 25px;">
+                <i class="fa-solid fa-rocket"></i>
+            </div>
+            <h2 style="color: #ffffff; font-size: 52px; margin-bottom: 20px; text-transform: uppercase;">Generar Ventas Institucionales</h2>
+            <div style="width: 120px; height: 4px; background: #38BDF8; margin: 30px auto;"></div>
+            <p style="color: #CBD5E1; font-size: 22px; max-width: 800px; margin: 30px auto;">
+                <strong>Es el resultado de una prospección estratégica, negociación profesional y cumplimiento riguroso de procedimientos que garantizan rentabilidad y sostenibilidad comercial.</strong>
+            </p>
+            
+            <div style="margin-top: 40px; font-size: 18px; color: #94A3B8;">
+                <p style="margin: 10px 0;"><i class="fa-solid fa-check" style="color: #10B981; margin-right: 8px;"></i>Alcanza tus metas comerciales</p>
+                <p style="margin: 10px 0;"><i class="fa-solid fa-check" style="color: #10B981; margin-right: 8px;"></i>Mantén la excelencia operativa</p>
+                <p style="margin: 10px 0;"><i class="fa-solid fa-check" style="color: #10B981; margin-right: 8px;"></i>Garantiza el crecimiento sostenible</p>
+            </div>
+        </div>
+        <div class="footer-mark" style="border-top-color: #334155; color: #64748B;">
+            <span>Estrategia de Crecimiento</span>
+            <span>Manual SM.CA - PR.12.02</span>
+        </div>
+    </div>
+
+</body>
+</html>
